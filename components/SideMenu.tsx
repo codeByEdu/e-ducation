@@ -1,7 +1,8 @@
 
-import { List, SignOut } from "phosphor-react";
+import { House, List, Person, SignOut } from "phosphor-react";
 import { useState } from "react";
 import  React  from "react";
+import Link from "next/link";
 
 export default function SideMenu () {
   const [activeMenu, setActiveMenu] = useState<boolean>(false);
@@ -21,7 +22,7 @@ export default function SideMenu () {
 
       <div className="user-info">
         <img src="https://images.nightcafe.studio//assets/profile.png?tr=w-1600,c-at_max" />
-        <div onClick={handleChangeMenuState}>
+        <div>
           <strong>USUARIO</strong>
           <span>CARGO</span>
         </div>
@@ -34,9 +35,16 @@ export default function SideMenu () {
 
       <div className="menu-items">
         <ul>
+          <Link href={"/home"}>
           <li>
-            <span>ICONE</span> <p>NOME-PAGINA</p>
-          </li>
+            <span><House size={32}/></span> <p>Home</p>
+          </li></Link>
+        </ul>
+        <ul>
+          <Link href={"/cadastro-aluno"}>
+          <li>
+            <span><Person size={32}/></span> <p>Cadastro Aluno</p>
+          </li></Link>
         </ul>
       </div>
 
