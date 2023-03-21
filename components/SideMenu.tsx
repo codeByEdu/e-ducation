@@ -8,7 +8,7 @@ export default function SideMenu() {
   const [activeMenu, setActiveMenu] = useState<boolean>(false);
 
   function handleChangeMenuState() {
-    console.log("abriu");
+
     setActiveMenu(!activeMenu);
   }
 
@@ -41,9 +41,10 @@ export default function SideMenu() {
             </li></Link>
         </ul>
         <ul>
-          <Link href={"/professores"}>
+          <Link href={"/consulta"}>
             <li>
-              <span><Person size={32} /></span> <p>Cadastro Aluno</p>
+              <span><Person size={32} /></span> <p>
+                Consulta professor</p>
             </li></Link>
         </ul>
         <ul>
@@ -53,9 +54,9 @@ export default function SideMenu() {
             </li></Link>
         </ul>
         <ul>
-          <Link href={"/consulta"}>
+          <Link href={"/cadastro-aluno"}>
             <li>
-              <span><Person size={32} /></span> <p>Consulta professor</p>
+              <span><Person size={32} /></span> <p>Consulta aluno</p>
             </li></Link>
         </ul>
       </div>

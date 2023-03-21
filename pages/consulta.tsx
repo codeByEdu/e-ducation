@@ -1,4 +1,5 @@
 import CadastroProfessor from "@/components/CadastroProfessor";
+import { useModalContext } from "@/contexts/ModalContext";
 import React, { useState } from "react";
 
 
@@ -7,16 +8,11 @@ import React, { useState } from "react";
 
 export default function ConsultaProfessor() {
 
-    const [modalAtivo, setModalAtivo] = useState<boolean>(false);
-
-
-    function mostraCadastroProfessor() {
-        setModalAtivo(!modalAtivo)
-    }
+    const { mostraCadastroProfessor, activeModal } = useModalContext()
 
     return (
         <div className="container">
-            {modalAtivo && <CadastroProfessor />}
+            {activeModal && <CadastroProfessor />}
             <table style={{ width: "100%" }} className="table-primary table-hover">
                 <thead>
                     <tr>

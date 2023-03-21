@@ -1,12 +1,9 @@
+import { useModalContext } from "@/contexts/ModalContext";
 import { useState } from "react";
 
 export default function CadastroProfessor() {
-    const [modalAtivo, setModalAtivo] = useState<boolean>(false);
+    const { mostraCadastroProfessor } = useModalContext()
 
-
-    function mostraCadastroProfessor() {
-        setModalAtivo(!modalAtivo)
-    }
     return (
 
         <>
