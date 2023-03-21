@@ -1,0 +1,122 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    color: #000;
+    background-image: url('Loginbg.png');
+    background-size: cover;
+  }
+  
+  .container {
+    margin: auto;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+    padding-top: 100px;
+  }
+
+  .logo-container {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+  }
+  
+  h1 {
+    font-size: 36px;
+    margin-bottom: 50px;
+    color: #fff;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:  #f0f0f5;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  label {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  input {
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    background-color: #f0f0f5;
+    color: #444;
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  button {
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  #esqueci-senha {
+    font-size: 14px;
+    margin-top: 10px;
+    color: #4CAF50;
+  }
+
+  #esqueci-senha:hover {
+    text-decoration: underline;
+  }
+  
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 400px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rodape {
+    font-size: 15px;
+    color:#fff;
+    text-align: center;
+  }
+
+  .close {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  

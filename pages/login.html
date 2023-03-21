@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Login e-Ducation</title>
+	<link rel="stylesheet" href="login.css">
+</head>
+<body>
+	<div class="container">
+        <img src="Logo.png" alt="Logo">
+		<h1>Faça seu Login</h1>
+		<form>
+			<label for="email">Digte o e-mail da sua instituição de ensino:</label>
+			<input type="email" id="email" name="email" required>
+
+			<label for="senha">Digite sua senha:</label>
+			<input type="password" id="senha" name="senha" required>
+
+			<button type="submit">Entrar</button>
+			<a href="#" id="esqueci-senha">Esqueci minha senha</a>
+		</form>
+	</div>
+
+	<div class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<h2>Recuperação de senha</h2>
+			<p>Insira o seu e-mail para receber uma nova senha:</p>
+			<form>
+				<label for="email-rec">E-mail:</label>
+				<input type="email" id="email-rec" name="email-rec" required>
+
+				<button type="submit">Enviar</button>
+			</form>
+		</div>
+	</div>
+	<script src="login.js"></script>
+    <footer class="rodape">
+        <p>©2023 Todos os direitos reservados, e-Ducation®</p>
+      </footer>
+</body>
+</html>
