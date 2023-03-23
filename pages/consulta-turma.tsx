@@ -1,12 +1,34 @@
 
 import CadastroTurma from "@/components/CadastroTurma";
 import { useModalContext } from "@/contexts/ModalContext";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import api from "./api/api";
 
 
 
 export default function ConsultaTurma() {
     const { mostraCadastroTurma, activeModal } = useModalContext()
+
+    const [turmas, setTurmas] = useState<[any]>();
+    const [profs, setProf] = useState<[any]>();
+
+    useEffect(() => {
+        api
+            .get("/professor/all")
+            .then((response) => setProf(response.data))
+            .catch((err) => {
+                console.error("ops! ocorreu um erro" + err);
+            });
+    }, []);
+    useEffect(() => {
+        api
+            .get("/escola/turmas")
+            .then((response) => setTurmas(response.data))
+            .catch((err) => {
+                console.error("ops! ocorreu um erro" + err);
+            });
+    }, []);
+
     return (
         <>
 
@@ -24,46 +46,21 @@ export default function ConsultaTurma() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1º ano A</td>
-                                <td>João da Silva</td>
-                                <td>
-                                    <button className="acessar-turma">Acessar turma</button>
-                                    <button className="editar-turma">Editar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2º ano A</td>
-                                <td>Maria Oliveira</td>
-                                <td>
-                                    <button className="acessar-turma">Acessar turma</button>
-                                    <button className="editar-turma">Editar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3º ano A</td>
-                                <td>Pedro Santos</td>
-                                <td>
-                                    <button className="acessar-turma">Acessar turma</button>
-                                    <button className="editar-turma">Editar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4º ano A</td>
-                                <td>Carla Soares</td>
-                                <td>
-                                    <button className="acessar-turma">Acessar turma</button>
-                                    <button className="editar-turma">Editar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5º ano A</td>
-                                <td>Roberto Alves</td>
-                                <td>
-                                    <button className="acessar-turma">Acessar turma</button>
-                                    <button className="editar-turma">Editar</button>
-                                </td>
-                            </tr>
+
+                            {turmas?.map(turma => (
+                                <tr>
+                                    <td>{turma.ano}</td>
+                                    <td>João da Silva</td>
+                                    <td>
+                                        <button className="acessar-turma">Acessar turma</button>
+                                        <button className="editar-turma">Editar</button>
+                                    </td>
+                                </tr>
+
+
+                            ))}
+
+
                         </tbody>
                     </table>
                     <button onClick={mostraCadastroTurma} id="cadastro-turma">Cadastrar Nova Turma</button>
@@ -71,13 +68,14 @@ export default function ConsultaTurma() {
 
                 <section>
                     <h2>Professores</h2>
-                    <ul>
-                        <li>João da Silva</li>
-                        <li>Maria Oliveira</li>
-                        <li>Pedro Santos</li>
-                        <li>Carla Soares</li>
-                        <li>Roberto Alves</li>
-                    </ul>
+
+                    {profs?.map(professor => (
+                        <li>{professor?.nome}
+
+                        </li>
+
+                    ))}
+
                 </section>
             </div >
 

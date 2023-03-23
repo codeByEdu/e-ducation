@@ -1,8 +1,23 @@
 import { Article, Option, Pencil } from "phosphor-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import api from "./api/api";
 
 
 export default function Disciplina() {
+
+
+    const [disciplinas, setDisciplinas] = useState<[any]>();
+
+    useEffect(() => {
+        api.get("/escola/disciplinas")
+            .then((response) => setDisciplinas(response.data))
+            .catch((err) => {
+                console.error("ops! ocorreu um erro" + err);
+            });
+    }, []);
+
+
+
     return (
         <>
             <div className="container">
@@ -10,9 +25,14 @@ export default function Disciplina() {
                 <h2>Disciplinas</h2>
                 <table className="table-primary">
                     <thead>
+                        {disciplinas?.map(disc => (
+                            <tr>
+                                <th>{disc.nome}</th>
+                            </tr>
+
+                        ))}
                         <tr>
                             <th>Nome da Disciplina</th>
-                            <th>Professor Responsável</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -25,54 +45,7 @@ export default function Disciplina() {
                                 <Pencil size={30}></Pencil>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Inglês</td>
-                            <td>2º ano A</td>
-                            <td>
-                                <Article size={30}></Article>
-                                <Pencil size={30}></Pencil>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Educação Física </td>
-                            <td>3º ano A</td>
-                            <td>
-                                <Article size={30}></Article>
-                                <Pencil size={30}></Pencil>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Matemática</td>
-                            <td>4º ano A</td>
-                            <td>
-                                <Article size={30}></Article>
-                                <Pencil size={30}></Pencil>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>História</td>
-                            <td>5º ano A</td>
-                            <td>
-                                <Article size={30}></Article>
-                                <Pencil size={30}></Pencil>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Geografia</td>
-                            <td>3º ano A</td>
-                            <td>
-                                <Article size={30}></Article>
-                                <Pencil size={30}></Pencil>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Ciências</td>
-                            <td>2º ano A</td>
-                            <td>
-                                <Article size={30}></Article>
-                                <Pencil size={30}></Pencil>
-                            </td>
-                        </tr>
+
                     </tbody>
                 </table>
                 <button className="btn btn-success" id="cadastro-disciplina">Cadastrar Nova disciplina</button>
