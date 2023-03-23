@@ -34,7 +34,7 @@ export default function ConsultaTurma() {
 
 
             <div className="container">
-                {activeModal && <CadastroTurma />}
+                {activeModal && <CadastroTurma professor={profs} />}
                 <section>
                     <h2>Turmas</h2>
                     <table>
@@ -48,9 +48,9 @@ export default function ConsultaTurma() {
                         <tbody>
 
                             {turmas?.map(turma => (
-                                <tr>
+                                <tr key={turma.codigo}>
                                     <td>{turma.ano}</td>
-                                    <td>João da Silva</td>
+                                    <td>{turma.professorResponsavel.nome}</td>
                                     <td>
                                         <button className="acessar-turma">Acessar turma</button>
                                         <button className="editar-turma">Editar</button>
@@ -70,7 +70,9 @@ export default function ConsultaTurma() {
                     <h2>Professores</h2>
 
                     {profs?.map(professor => (
-                        <li>{professor?.nome}
+                        <li key={professor.id}>
+
+                            {professor?.nome}
 
                         </li>
 

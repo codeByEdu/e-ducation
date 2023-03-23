@@ -1,6 +1,7 @@
 import CadastroProfessor from "@/components/CadastroProfessor";
 import { useModalContext } from "@/contexts/ModalContext";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import api from "./api/api";
 
 
 
@@ -9,7 +10,16 @@ import React, { useState } from "react";
 export default function ConsultaProfessor() {
 
     const { mostraCadastroProfessor, activeModal } = useModalContext()
+    const [profs, setProf] = useState<[any]>();
 
+    useEffect(() => {
+        api
+            .get("/professor/all")
+            .then((response) => setProf(response.data))
+            .catch((err) => {
+                console.error("ops! ocorreu um erro" + err);
+            });
+    }, []);
     return (
         <div className="container">
             {activeModal && <CadastroProfessor />}
@@ -20,70 +30,40 @@ export default function ConsultaProfessor() {
                         <th style={{ textAlign: "left" }} scope="col">
                             Nome
                         </th>
-                        <th style={{ textAlign: "left" }} scope="col">
-                            Sobrenome
-                        </th>
+
                         <th style={{ textAlign: "left" }} scope="col">
                             Email
                         </th>
+
                         <th style={{ textAlign: "left" }} scope="col">
-                            Turma
-                        </th>
-                        <th style={{ textAlign: "left" }} scope="col">
-                            Disciplina
+                            Tipo
                         </th>
                         <th style={{ textAlign: "left" }} scope="col" />
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>João</td>
-                        <td>Silva</td>
-                        <td>joao@professor.com</td>
-                        <td>1° A</td>
-                        <td>Matemática</td>
-                        <td>
-                            <button type="button" className="btn btn-secondary btn-sm">
-                                Editar
-                            </button>
-                            <button type="button" className="btn btn-danger btn-sm">
-                                Deletar
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>joao@professor.com</td>
-                        <td>1° A</td>
-                        <td>Português</td>
-                        <td>
-                            <button type="button" className="btn btn-secondary btn-sm">
-                                Editar
-                            </button>
-                            <button type="button" className="btn btn-danger btn-sm">
-                                Deletar
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>João</td>
-                        <td>Silva</td>
-                        <td>joao@professor.com</td>
-                        <td>1° A</td>
-                        <td>Inglês</td>
-                        <td>
-                            <button type="button" className="btn btn-secondary btn-sm">
-                                Editar
-                            </button>
-                            <button type="button" className="btn btn-danger btn-sm">
-                                Deletar
-                            </button>
-                        </td>
-                    </tr>
+
+
+                    {profs?.map(professor => (
+                        <tr key={professor.id}>
+                            <th scope="row">{professor.id}</th>
+
+                            <td>{professor.nome}</td>
+                            <td>{professor.email}</td>
+                            <td>{professor.tipoProfessor}</td>
+                            <td>
+                                <button type="button" className="btn btn-secondary btn-sm">
+                                    Editar
+                                </button>
+                                <button type="button" className="btn btn-danger btn-sm">
+                                    Deletar
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+
+
+
                 </tbody>
             </table>
             <button type="button" onClick={mostraCadastroProfessor} className="btn btn-success">Adicionar professor</button>
