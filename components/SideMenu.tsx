@@ -44,25 +44,25 @@ export default function SideMenu() {
           <Link href={"/consulta"}>
             <li>
               <span><Person size={32} /></span> <p>
-                Consulta professor</p>
+                Professor</p>
             </li></Link>
         </ul>
         <ul>
           <Link href={"/disciplinas"}>
             <li>
-              <span><Person size={32} /></span> <p>Cadastro Disciplinas</p>
+              <span><Person size={32} /></span> <p>Disciplinas</p>
             </li></Link>
         </ul>
         <ul>
           <Link href={"/cadastro-aluno"}>
             <li>
-              <span><Person size={32} /></span> <p>Consulta aluno</p>
+              <span><Person size={32} /></span> <p>Aluno</p>
             </li></Link>
         </ul>
         <ul>
           <Link href={"/consulta-turma"}>
             <li>
-              <span><Cactus size={32} /></span> <p>Cadastro turma</p>
+              <span><Cactus size={32} /></span> <p>Turma</p>
             </li></Link>
         </ul>
       </div>

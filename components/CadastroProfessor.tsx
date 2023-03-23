@@ -1,9 +1,27 @@
 import { useModalContext } from "@/contexts/ModalContext";
-import { useState } from "react";
+import api from "@/pages/api/api";
+import { useEffect, useState } from "react";
 
 export default function CadastroProfessor() {
     const { mostraCadastroProfessor } = useModalContext()
-
+    const [turmas, setTurmas] = useState<[any]>();
+    const [tipos, setTipos] = useState<[any]>();
+    useEffect(() => {
+        api
+            .get("/escola/turmas")
+            .then((response) => setTurmas(response.data))
+            .catch((err) => {
+                console.error("ops! ocorreu um erro" + err);
+            });
+    }, []);
+    useEffect(() => {
+        api
+            .get("/professor/tipos")
+            .then((response) => setTipos(response.data))
+            .catch((err) => {
+                console.error("ops! ocorreu um erro" + err);
+            });
+    }, []);
     return (
 
         <>
@@ -18,40 +36,30 @@ export default function CadastroProfessor() {
                             <input type="text" className="form-control" placeholder="Nome" />
                         </div>
                         <br />
-                        <div className="col">
-                            <input className="form-control" placeholder="Sobrenome" type="text" />
-                        </div>
+
 
                         <div className="col">
                             <input type="email" className="form-control" placeholder="Email" />
                         </div>
 
+                        <select className="form-control" style={
+                            { width: "30%" }}>
+                            <option value="">Selecione o tipo</option>
+                            {tipos?.map((tipo: any) => (
+                                <option key={tipo.id} value={tipo.id}>{tipo.descricao}</option>
+                            ))}
 
+                        </select>
                     </div>
 
-                    <br /><select className="form-control" style={
-                        { width: "30%" }}>
-                        <option> Turmas</option>
-                        <option value={1}>1°A</option>
-                        <option value={2}>2°A</option>
-                        <option value={3}>3°A</option>
-                        <option value={4}>4°A</option>
-                        <option value={5}>5°A</option>
-                        <option value={6}>1°B</option>
-                        <option value={6}>2°B</option>
-                        <option value={6}>3°B</option>
-                        <option value={6}>4°B</option>
-                        <option value={6}>5°B</option>
-                    </select>
+                    <br />
                     <select className="form-control" style={
                         { width: "30%" }}>
-                        <option>Disciplinas</option>
-                        <option value={1}>Matemática</option>
-                        <option value={2}>Português</option>
-                        <option value={3}>História</option>
-                        <option value={4}>Geografia</option>
-                        <option value={5}>Inglês</option>
-                        <option value={6}>Educação Física</option>
+                        <option value="">Selecione a turma</option>
+                        {turmas?.map((turma: any) => (
+                            <option key={turma.codigo} value={turma.codigo}>{turma.ano}</option>
+                        ))}
+
                     </select>
                     <button
                         onClick={mostraCadastroProfessor}
