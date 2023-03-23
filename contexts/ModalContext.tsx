@@ -3,6 +3,7 @@ import { createContext, PropsWithChildren, useContext, useState } from "react";
 type ModalContextType = {
     activeModal: boolean
     mostraCadastroProfessor: () => void
+    mostraCadastroTurma: () => void
 }
 
 export const ModalContext = createContext<ModalContextType>({} as ModalContextType)
@@ -13,9 +14,12 @@ export const ModalProvider = ({ children }: PropsWithChildren) => {
     function mostraCadastroProfessor() {
         setActiveModal(!activeModal)
     }
+    function mostraCadastroTurma() {
+        setActiveModal(!activeModal)
+    }
 
     return (
-        <ModalContext.Provider value={{ activeModal, mostraCadastroProfessor }}>
+        <ModalContext.Provider value={{ activeModal, mostraCadastroProfessor, mostraCadastroTurma }}>
             {children}
         </ModalContext.Provider>
     )

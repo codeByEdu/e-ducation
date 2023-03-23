@@ -1,5 +1,5 @@
 
-import { House, List, Person, SignOut } from "phosphor-react";
+import { Cactus, House, List, Person, SignOut } from "phosphor-react";
 import { useState } from "react";
 import React from "react";
 import Link from "next/link";
@@ -57,6 +57,12 @@ export default function SideMenu() {
           <Link href={"/cadastro-aluno"}>
             <li>
               <span><Person size={32} /></span> <p>Consulta aluno</p>
+            </li></Link>
+        </ul>
+        <ul>
+          <Link href={"/consulta-turma"}>
+            <li>
+              <span><Cactus size={32} /></span> <p>Cadastro turma</p>
             </li></Link>
         </ul>
       </div>
