@@ -9,9 +9,21 @@ import api from "./api/api";
 export default function ConsultaTurma() {
     const { mostraCadastroTurma, activeModal } = useModalContext()
 
+    function editarTurma(classe: any) {
+
+        setTurma(classe);
+        mostraCadastroTurma
+    }
+
+    const [turma, setTurma] = useState<[any]>();
     const [turmas, setTurmas] = useState<[any]>();
     const [profs, setProf] = useState<[any]>();
+    interface turma {
+        ano: string,
+        codigo: number
 
+
+    }
     useEffect(() => {
         api
             .get("/professor/all")
@@ -34,7 +46,7 @@ export default function ConsultaTurma() {
 
 
             <div className="container">
-                {activeModal && <CadastroTurma professor={profs} />}
+                {activeModal && <CadastroTurma professor={profs} turma={turma} />}
                 <section>
                     <h2>Turmas</h2>
                     <table>
@@ -53,7 +65,7 @@ export default function ConsultaTurma() {
                                     <td>{turma.professorResponsavel.nome}</td>
                                     <td>
                                         <button className="acessar-turma">Acessar turma</button>
-                                        <button className="editar-turma">Editar</button>
+                                        <button onClick={mostraCadastroTurma} className="editar-turma">Editar</button>
                                     </td>
                                 </tr>
 

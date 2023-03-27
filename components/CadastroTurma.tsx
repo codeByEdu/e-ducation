@@ -1,8 +1,43 @@
 import { useModalContext } from "@/contexts/ModalContext";
-import React from "react";
+import api from "@/pages/api/api";
+import React, { FormEvent, useState } from "react";
 
 export default function CadastroTurma(props: any) {
     const { mostraCadastroTurma } = useModalContext()
+
+
+
+    const [formValue, setformValue] = React.useState({
+        ano: '',
+        idProf: ''
+    });
+
+    const handleSubmit = async (event: any) => {
+        // store the states in the form data
+        const turmFormData = new FormData();
+        turmFormData.append("ano", formValue.ano)
+        turmFormData.append("idProf", formValue.idProf)
+
+        try {
+            // make axios post request
+            const response = await api({
+                method: "post",
+                url: "/escola/turma",
+                data: turmFormData,
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleChange = (event: any) => {
+        setformValue({
+            ...formValue,
+            [event.target.ano]: event.target.value,
+
+        });
+    }
 
     return (
 
@@ -10,11 +45,12 @@ export default function CadastroTurma(props: any) {
             <form style={{
                 position: "fixed", top: "0", display: "flex",
                 justifyContent: "center", alignItems: "center", flexDirection: "column",
-            }}>
+            }} onSubmit={handleSubmit} >
                 < section >
                     <h2>Cadastrar Nova Turma</h2>
                     <label htmlFor="nome-turma">Nome da Turma:</label>
-                    <input type="text" id="nome-turma" name="nome-turma" />
+                    <input type="text" id="nome-turma" value={props.turma?.ano}
+                        onChange={handleChange} name="nome-turma" />
                     <label htmlFor="professor">Professor Responsável:</label>
                     <select id="professor" name="professor" >
                         <option value="">Selecione o professor</option>
