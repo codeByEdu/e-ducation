@@ -1,24 +1,22 @@
 import { useModalContext } from "@/contexts/ModalContext";
-import api from "@/pages/api/api";
+import { useApi } from "@/service/api-service";
 import React from "react";
 
 export default function CadastroTurma(props: any) {
+  const { apiPost } = useApi();
   const { mostraCadastroTurma } = useModalContext();
-
   const [formValue, setformValue] = React.useState({
     ano: "",
     idProf: "",
   });
 
   const handleSubmit = async (event: any) => {
-    // store the states in the form data
+    event.preventDefault();
     const turmFormData = new FormData();
     turmFormData.append("ano", formValue.ano);
     turmFormData.append("idProf", formValue.idProf);
-
     try {
-      // make axios post request
-      const response = await api.post("escola/turma", turmFormData, {
+      const response = await apiPost("escola/turma", turmFormData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     } catch (error) {

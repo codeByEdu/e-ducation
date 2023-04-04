@@ -2,7 +2,6 @@ import CadastroProfessor from "@/components/CadastroProfessor";
 import { useModalContext } from "@/contexts/ModalContext";
 import { useApi } from "@/service/api-service";
 import { useEffect, useState } from "react";
-import api from "./api/api";
 
 export default function ConsultaProfessor() {
   const { apiGet } = useApi();
@@ -10,15 +9,13 @@ export default function ConsultaProfessor() {
   const [profs, setProf] = useState<[any]>();
 
   useEffect(() => {
-    api
-      .get("/professor/all")
-      .then((response) => setProf(response.data))
-      .catch((err) => {
-        console.error("ops! ocorreu um erro" + err);
-      });
+    listarProfessores();
   }, []);
 
-  function professores() {}
+  async function listarProfessores() {
+    const { data } = await apiGet("/professor/all");
+    setProf(data);
+  }
 
   return (
     <div className="container">
