@@ -1,36 +1,31 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import api from "./api/api";
+import { useApi } from "@/service/api-service";
+import { useEffect, useState } from "react";
 
+type TurmaType = {
+  id: string;
+};
 
 export default function App() {
-    const [jobs, setJobs] = useState<[any]>();
+  const [turmas, setTurmas] = useState<TurmaType[]>([]);
+  const { apiGet } = useApi();
 
+  useEffect(() => {
+    resgataTurmas();
+  }, []);
 
+  useEffect(() => {
+    mapeiaTurmas(turmas);
+  }, [turmas]);
 
-    useEffect(() => {
-        api
-            .get("/escola/name")
-            .then((response) => setJobs(response.data))
-            .catch((err) => {
-                console.error("ops! ocorreu um erro" + err);
-            });
-    }, []);
+  async function resgataTurmas() {
+    const response = await apiGet("/turmas/");
+    const { data } = response;
+    setTurmas(data);
+  }
 
+  function mapeiaTurmas(turmasRecebias: TurmaType[]) {
+    turmasRecebias.map((turma) => {});
+  }
 
-
-    const myArray = ['Jack', 'Mary', 'John', 'Krish', 'Navin'];
-    return (
-        <div className="App">
-            {/* <p>{jobs?.uuid}</p> */}
-
-
-            {jobs?.map(name => (
-                <li>
-                    {name.codigo}
-                    {name.ano}
-                </li>
-            ))}
-        </div>
-    );
+  return <div className="App"></div>;
 }
