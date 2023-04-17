@@ -4,49 +4,35 @@ import { useApi } from "@/service/api-service";
 import React, { useEffect, useState } from "react";
 
 
-export default function ConsultaProfessor() {
+export default function ListaAlunos(idTurma: number) {
   const { apiGet, apiDelete, apiPost, apiPatch } = useApi();
   const { mostraCadastroProfessor, activeModal } = useModalContext();
-  const [profs, setProf] = useState<[any]>();
+  const [alunos, setAlunos] = useState<[any]>();
   const [idProf, setIdProf] = useState(0);
   const [professor, setProfessor] = useState<any>();
 
   useEffect(() => {
-    listarProfessores();
+    listarAlunos();
   }, []);
 
   const deleteProf = () => {
-    apiDelete("/professor/" + idProf);
-    listarProfessores();
+    apiDelete("/aluno/" + idProf);
+    listarAlunos();
   }
 
-  async function listarProfessores() {
-    const { data } = await apiGet("/professor/all");
-    setProf(data);
-  }
-
-  async function addProf(prof: any) {
-    await apiPost("/professor", prof);
-    mostraCadastroProfessor();
-    listarProfessores();
-  }
-
-  async function updateProf(prof: any) {
-    await apiPatch("/professor", prof);
-    mostraCadastroProfessor();
-    listarProfessores();
+  async function listarAlunos() {
+    const { data } = await apiGet("/aluno/class/all?=" + "&idTurma=" + idTurma);
+    setAlunos(data);
   }
 
   const data = {
-    addProf,
-    updateProf,
     professor,
-    listarProfessores
+    listarAlunos
   }
 
   return (
     <div className="container">
-      {activeModal && <CadastroProfessor data={data} />}
+      {/* {activeModal && <CadastroProfessor data={data} />} */}
       <table style={{ width: "100%" }} className="table-primary table-hover">
         <thead>
           <tr>
@@ -58,29 +44,24 @@ export default function ConsultaProfessor() {
             <th style={{ textAlign: "left" }} scope="col">
               Email
             </th>
-
-            <th style={{ textAlign: "left" }} scope="col">
-              Tipo
-            </th>
             <th style={{ textAlign: "left" }} scope="col" />
           </tr>
         </thead>
         <tbody>
-          {profs?.map((professor) => (
-            <tr key={professor.id}>
-              <th scope="row">{professor.id}</th>
+          {alunos?.map((aluno) => (
+            <tr key={aluno.id}>
+              <th scope="row">{aluno.id}</th>
+              <td>{aluno.nome}</td>
+              <td>{aluno.emailResponsavel}</td>
 
-              <td>{professor.nome}</td>
-              <td>{professor.email}</td>
-              <td>{professor.tipoProfessor.descricao}</td>
               <td>
                 <button type="button" className="btn btn-secondary btn-sm"
-                  onClick={() => { setProfessor(professor); mostraCadastroProfessor() }}
+                //onClick={() => { setaluno(aluno); mostraCadastroAluno() }}
                 >
                   Editar
                 </button>
                 <button type="button" className="btn btn-danger btn-sm"
-                  onClick={() => { setIdProf(professor.id); deleteProf() }}
+                // onClick={() => { setIdProf(aluno.id); deleteProf() }}
 
                 >
 

@@ -2,19 +2,44 @@ import { useModalContext } from "@/contexts/ModalContext";
 import { useApi } from "@/service/api-service";
 import { useEffect, useState } from "react";
 
-export default function CadastroProfessor() {
+type CadastroProfessorProps = {
+  data: {
+    addProf: (prof: any) => Promise<void>;
+    updateProf: (prof: any) => Promise<void>;
+    listarProfessores: () => Promise<void>;
+    professor: any;
+  }
+}
+
+export default function CadastroProfessor({ data }: CadastroProfessorProps) {
   const { apiGet } = useApi();
   const { mostraCadastroProfessor } = useModalContext();
-  const [turmas, setTurmas] = useState<[any]>();
   const [tipos, setTipos] = useState<[any]>();
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [tipo, setTipo] = useState(0);
+
+  const [formData, setFormData] = useState<any>();
+
   useEffect(() => {
-    listaTurmas();
     listaTipos();
+    if (data?.professor && data.professor.id) {
+      setEmail(data.professor.email);
+      setNome(data.professor.nome);
+    }
   }, []);
 
-  async function listaTurmas() {
-    const { data } = await apiGet("/escola/turmas");
-    setTurmas(data);
+  let handleSubmit = (event: any) => {
+    event.preventDefault();
+    // console.log(formData);
+    setFormData({ id: data?.professor && data.professor.id, nome: data?.professor && data.professor.nome, email: data?.professor && data.professor.email, tipoProfessor: { id: data?.professor && data.professor.tipo, descricao: "null" } });
+    console.log(formData);
+
+    if (data?.professor && data.professor.id) {
+      data.updateProf(formData);
+    } else {
+      data.addProf(formData);
+    }
   }
 
   async function listaTipos() {
@@ -22,10 +47,20 @@ export default function CadastroProfessor() {
     setTipos(data);
   }
 
+  let button;
+  if (data?.professor && data.professor.id) {
+    button = <button type="submit" className="btn btn-success">
+      Atualizar
+    </button>;
+
+  } else {
+    button = <button type="submit" className="btn btn-success">Cadastrar</button>;
+  }
   return (
     <>
       <div className="container">
         <form
+          onSubmit={handleSubmit}
           style={{
             position: "fixed",
             top: "0",
@@ -37,19 +72,26 @@ export default function CadastroProfessor() {
         >
           <div className="form-group row">
             <div className="col">
-              <input type="text" className="form-control" placeholder="Nome" />
+              <input type="text"
+                value={nome}
+                onChange={(event) => setNome(event.target.value)}
+                className="form-control" placeholder="Nome" />
             </div>
             <br />
 
             <div className="col">
               <input
+                value={email}
                 type="email"
+                onChange={(event) => setEmail(event.target.value)}
                 className="form-control"
                 placeholder="Email"
               />
             </div>
 
-            <select className="form-control" style={{ width: "30%" }}>
+            <select className="form-control" style={{ width: "30%" }}
+              onChange={(event) => setTipo(parseInt(event.target.value))}
+            >
               <option value="">Selecione o tipo</option>
               {tipos?.map((tipo: any) => (
                 <option key={tipo.id} value={tipo.id}>
@@ -60,26 +102,21 @@ export default function CadastroProfessor() {
           </div>
 
           <br />
-          <select className="form-control" style={{ width: "30%" }}>
-            <option value="">Selecione a turma</option>
-            {turmas?.map((turma: any) => (
-              <option key={turma.codigo} value={turma.codigo}>
-                {turma.ano}
-              </option>
-            ))}
-          </select>
+
           <button
-            onClick={mostraCadastroProfessor}
+            onClick={() => { mostraCadastroProfessor(); data.listarProfessores }}
             type="button"
             className="btn btn-danger"
           >
             Cancelar
           </button>
-          <button type="button" className="btn btn-success">
-            Adicionar
-          </button>
+          {button}
+
         </form>
       </div>
     </>
   );
 }
+
+
+

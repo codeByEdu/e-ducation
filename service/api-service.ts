@@ -2,11 +2,16 @@ import axios from "axios";
 
 export const useApi = () => {
   const api = axios.create({
-    baseURL: "https://api-rest-escola.azurewebsites.net",
+    baseURL: "http://localhost:8080",
   });
 
   const apiPost = async (path: string, data: any, config?: any) => {
     const response = await api.post(path, data, config ? config : {});
+    return response;
+  };
+
+  const apiPatch = async (path: string, data: any) => {
+    const response = await api.patch(path, data);
     return response;
   };
 
@@ -20,5 +25,5 @@ export const useApi = () => {
     return response;
   };
 
-  return { apiDelete, apiGet, apiPost };
+  return { apiDelete, apiGet, apiPost, apiPatch };
 };

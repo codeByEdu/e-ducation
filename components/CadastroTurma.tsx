@@ -1,27 +1,24 @@
 import { useModalContext } from "@/contexts/ModalContext";
 import { useApi } from "@/service/api-service";
-import React from "react";
+import React, { useState } from "react";
 
 export default function CadastroTurma(props: any) {
   const { apiPost } = useApi();
   const { mostraCadastroTurma } = useModalContext();
   const [formValue, setformValue] = React.useState({
     ano: "",
-    idProf: "",
+    professorResponsavel: {
+      id: 0
+    },
   });
 
   const handleSubmit = async (event: any) => {
+    formValue.professorResponsavel.id = parseInt("0")
+
     event.preventDefault();
-    const turmFormData = new FormData();
-    turmFormData.append("ano", formValue.ano);
-    turmFormData.append("idProf", formValue.idProf);
-    try {
-      const response = await apiPost("escola/turma", turmFormData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    const { data } = await apiPost("/escola/turmas", formValue);
+    console.log(data);
+
   };
 
   const handleChange = (event: any) => {
@@ -67,7 +64,7 @@ export default function CadastroTurma(props: any) {
           <button type="submit">Salvar</button>
           <button
             onClick={mostraCadastroTurma}
-            type="button"
+            type="submit"
             id="cancelar-cadastro-turma"
           >
             Cancelar

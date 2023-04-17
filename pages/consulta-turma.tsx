@@ -1,4 +1,5 @@
 import CadastroTurma from "@/components/CadastroTurma";
+import ListaAlunos from "../pages/alunos";
 import { useModalContext } from "@/contexts/ModalContext";
 import { useApi } from "@/service/api-service";
 import { useEffect, useState } from "react";
@@ -6,6 +7,7 @@ import { useEffect, useState } from "react";
 export default function ConsultaTurma() {
   const { apiGet } = useApi();
   const { mostraCadastroTurma, activeModal } = useModalContext();
+
   function editarTurma(classe: any) {
     setTurma(classe);
     mostraCadastroTurma;
@@ -37,7 +39,7 @@ export default function ConsultaTurma() {
     <>
       <div className="container">
         {activeModal && <CadastroTurma professor={profs} turma={turma} />}
-        <section>
+        /<section>
           <h2>Turmas</h2>
           <table>
             <thead>
@@ -55,7 +57,7 @@ export default function ConsultaTurma() {
                   <td>
                     <button className="acessar-turma">Acessar turma</button>
                     <button
-                      onClick={mostraCadastroTurma}
+                      onClick={mostraListaAlunos}
                       className="editar-turma"
                     >
                       Editar
