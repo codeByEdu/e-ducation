@@ -8,18 +8,17 @@ type CadastroProfessorProps = {
     updateProf: (prof: any) => Promise<void>;
     listarProfessores: () => Promise<void>;
     professor: any;
-  }
-}
+  };
+};
 
 export default function CadastroProfessor({ data }: CadastroProfessorProps) {
   const { apiGet } = useApi();
   const { mostraCadastroProfessor } = useModalContext();
-  const [tipos, setTipos] = useState<[any]>();
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
+  const [tipos, setTipos] = useState<any[]>([]);
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
   const [tipo, setTipo] = useState(0);
-
-  const [formData, setFormData] = useState<any>();
+  const [formData, setFormData] = useState<any>(data.professor);
 
   useEffect(() => {
     listaTipos();
@@ -29,32 +28,55 @@ export default function CadastroProfessor({ data }: CadastroProfessorProps) {
     }
   }, []);
 
-  let handleSubmit = (event: any) => {
-    event.preventDefault();
-    // console.log(formData);
-    setFormData({ id: data?.professor && data.professor.id, nome: data?.professor && data.professor.nome, email: data?.professor && data.professor.email, tipoProfessor: { id: data?.professor && data.professor.tipo, descricao: "null" } });
-    console.log(formData);
+  useEffect(() => {
+    console.log(tipos);
+  }, [tipos]);
 
-    if (data?.professor && data.professor.id) {
-      data.updateProf(formData);
-    } else {
-      data.addProf(formData);
+  useEffect(() => {
+    setFormData({
+      id: data?.professor && data.professor.id,
+      nome: nome ? nome : data.professor.nome,
+      email: email ? email : data.professor.email,
+      tipoProfessor: {
+        id: tipo ? tipo : data.professor.tipo,
+        descricao: "null",
+      },
+    });
+  }, [nome, email, tipo]);
+
+  let handleSubmit = (event: any) => {
+    try {
+      event.preventDefault();
+      console.log(formData);
+      if (data?.professor && data.professor.id) {
+        data.updateProf(formData);
+      } else {
+        data.addProf(formData);
+      }
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   async function listaTipos() {
     const { data } = await apiGet("/professor/tipos");
+    console.log(data);
     setTipos(data);
   }
 
   let button;
   if (data?.professor && data.professor.id) {
-    button = <button type="submit" className="btn btn-success">
-      Atualizar
-    </button>;
-
+    button = (
+      <button type="submit" className="btn btn-success">
+        Atualizar
+      </button>
+    );
   } else {
-    button = <button type="submit" className="btn btn-success">Cadastrar</button>;
+    button = (
+      <button type="submit" className="btn btn-success">
+        Cadastrar
+      </button>
+    );
   }
   return (
     <>
@@ -72,10 +94,13 @@ export default function CadastroProfessor({ data }: CadastroProfessorProps) {
         >
           <div className="form-group row">
             <div className="col">
-              <input type="text"
+              <input
+                type="text"
                 value={nome}
                 onChange={(event) => setNome(event.target.value)}
-                className="form-control" placeholder="Nome" />
+                className="form-control"
+                placeholder="Nome"
+              />
             </div>
             <br />
 
@@ -89,7 +114,9 @@ export default function CadastroProfessor({ data }: CadastroProfessorProps) {
               />
             </div>
 
-            <select className="form-control" style={{ width: "30%" }}
+            <select
+              className="form-control"
+              style={{ width: "30%" }}
               onChange={(event) => setTipo(parseInt(event.target.value))}
             >
               <option value="">Selecione o tipo</option>
@@ -104,19 +131,18 @@ export default function CadastroProfessor({ data }: CadastroProfessorProps) {
           <br />
 
           <button
-            onClick={() => { mostraCadastroProfessor(); data.listarProfessores }}
+            onClick={() => {
+              mostraCadastroProfessor();
+              data.listarProfessores;
+            }}
             type="button"
             className="btn btn-danger"
           >
             Cancelar
           </button>
           {button}
-
         </form>
       </div>
     </>
   );
 }
-
-
-
