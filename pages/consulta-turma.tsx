@@ -1,7 +1,7 @@
 import CadastroTurma from "@/components/CadastroTurma";
-import ListaAlunos from "../pages/alunos";
 import { useModalContext } from "@/contexts/ModalContext";
 import { useApi } from "@/service/api-service";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function ConsultaTurma() {
@@ -38,8 +38,8 @@ export default function ConsultaTurma() {
   return (
     <>
       <div className="container">
-        {activeModal && <CadastroTurma professor={profs} turma={turma} />}
-        /<section>
+        {activeModal && <CadastroTurma professor={profs} turma={turma} />}/
+        <section>
           <h2>Turmas</h2>
           <table>
             <thead>
@@ -56,12 +56,9 @@ export default function ConsultaTurma() {
                   <td>{turma.professorResponsavel.nome}</td>
                   <td>
                     <button className="acessar-turma">Acessar turma</button>
-                    <button
-                      onClick={mostraListaAlunos}
-                      className="editar-turma"
-                    >
-                      Editar
-                    </button>
+                    <Link href={"/turmas/" + turma.id}>
+                      <button className="editar-turma">Editar</button>
+                    </Link>
                   </td>
                 </tr>
               ))}
@@ -71,7 +68,6 @@ export default function ConsultaTurma() {
             Cadastrar Nova Turma
           </button>
         </section>
-
         <section>
           <h2>Professores</h2>
 
