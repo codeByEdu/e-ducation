@@ -1,32 +1,58 @@
 import { useModalContext } from "@/contexts/ModalContext";
 import { useApi } from "@/service/api-service";
-import React, { useState } from "react";
-
-export default function CadastroTurma(props: any) {
+import React, { useEffect, useState } from "react";
+type dataCadastroTurma = {
+  data: {
+    addTurma: (turma: any) => Promise<void>;
+    updateTurma: (turma: any) => Promise<void>;
+    turma: any;
+    profs: any;
+  };
+};
+export default function CadastroTurma({ data }: dataCadastroTurma) {
   const { apiPost } = useApi();
   const { mostraCadastroTurma } = useModalContext();
-  const [formValue, setformValue] = React.useState({
-    ano: "",
-    professorResponsavel: {
-      id: 0
-    },
-  });
+  const [formData, setFormData] = useState<any>(data.turma);
+  const [ano, setAno] = useState("");
+  const [idProf, setIdProf] = useState(0);
 
-  const handleSubmit = async (event: any) => {
-    formValue.professorResponsavel.id = parseInt("0")
-
-    event.preventDefault();
-    const { data } = await apiPost("/escola/turmas", formValue);
-    console.log(data);
-
-  };
-
-  const handleChange = (event: any) => {
-    setformValue({
-      ...formValue,
-      [event.target.ano]: event.target.value,
+  useEffect(() => {
+    setFormData({
+      ano: data?.turma && data.turma.ano ? data.turma.ano : ano,
+      idProfessor: data?.turma && data.turma.idProf ? data.turma.idProf : idProf,
     });
+  }, [ano, idProf]);
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData])
+
+  let handleSubmit = (event: any) => {
+    try {
+      event.preventDefault();
+      if (data?.turma && data.turma.id) {
+        data.updateTurma(formData);
+      } else {
+        data.addTurma(formData);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
+  let button;
+  if (data?.turma && data.turma.id) {
+    button = (
+      <button type="submit" className="btn btn-success">
+        Atualizar
+      </button>
+    );
+  } else {
+    button = (
+      <button type="submit" className="btn btn-success">
+        Cadastrar
+      </button>
+    );
+  }
 
   return (
     <>
@@ -47,28 +73,23 @@ export default function CadastroTurma(props: any) {
           <input
             type="text"
             id="nome-turma"
-            value={props.turma?.ano}
-            onChange={handleChange}
+
+
+            onChange={(event) => setAno(event.target.value)}
             name="nome-turma"
           />
           <label htmlFor="professor">Professor Responsável:</label>
-          <select id="professor" name="professor">
+          <select id="professor" name="professor"
+            onChange={(event) => setIdProf(parseInt(event.target.value))}>
             <option value="">Selecione o professor</option>
-            {props.professor?.map((prof: any) => (
+            {data.profs?.map((prof: any) => (
               <option key={prof.id} value={prof.id}>
                 {prof.nome}
               </option>
             ))}
           </select>
 
-          <button type="submit">Salvar</button>
-          <button
-            onClick={mostraCadastroTurma}
-            type="submit"
-            id="cancelar-cadastro-turma"
-          >
-            Cancelar
-          </button>
+          {button}
         </section>
       </form>
     </>

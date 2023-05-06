@@ -5,19 +5,23 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function ConsultaTurma() {
-  const { apiGet } = useApi();
+  const { apiGet, apiPatch, apiPost } = useApi();
   const { mostraCadastroTurma, activeModal } = useModalContext();
 
-  function editarTurma(classe: any) {
-    setTurma(classe);
-    mostraCadastroTurma;
-  }
+
   const [turma, setTurma] = useState<[any]>();
   const [turmas, setTurmas] = useState<[any]>();
   const [profs, setProf] = useState<[any]>();
   interface turma {
     ano: string;
     codigo: number;
+  }
+  const data = {
+    addTurma,
+    updateTurma,
+    turma,
+    listaTurmas,
+    profs
   }
 
   useEffect(() => {
@@ -31,14 +35,26 @@ export default function ConsultaTurma() {
   }
 
   async function listaTurmas() {
-    const { data } = await apiGet("/escola/turmas");
+    const { data } = await apiGet("/turma/all");
     setTurmas(data);
   }
+  async function addTurma(turma: any) {
+    await apiPost("/turma/add", turma);
+    mostraCadastroTurma();
+    listaTurmas();
+  }
+
+  async function updateTurma(turma: any) {
+    await apiPatch("/turma/patch", turma);
+    mostraCadastroTurma();
+    listaTurmas();
+  }
+
 
   return (
     <>
       <div className="container">
-        {activeModal && <CadastroTurma professor={profs} turma={turma} />}/
+        {activeModal && <CadastroTurma data={data} />}
         <section>
           <h2>Turmas</h2>
           <table>
@@ -54,17 +70,28 @@ export default function ConsultaTurma() {
                 <tr key={turma.codigo}>
                   <td>{turma.ano}</td>
                   <td>{turma.professorResponsavel.nome}</td>
-                  <td>
-                    <button className="acessar-turma">Acessar turma</button>
-                    <Link href={"/turmas/" + turma.id}>
-                      <button className="editar-turma">Editar</button>
+                  <td style={{
+                    //flex direction row gap 10 px
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "10px",
+
+                  }}>
+                    <Link href={"/turmas/" + turma.codigo}>
+                      <button className="btn btn-success">Acessar turma
+                      </button>
                     </Link>
+                    <button className="btn btn-primary">Editar</button>
+                    <Link href={"/faltas/" + turma.codigo}>
+                      <button className="btn btn-warning">Acessar faltas</button>
+                    </Link>
+
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <button onClick={mostraCadastroTurma} id="cadastro-turma">
+          <button onClick={mostraCadastroTurma} className="btn btn-success">
             Cadastrar Nova Turma
           </button>
         </section>
@@ -74,8 +101,11 @@ export default function ConsultaTurma() {
           {profs?.map((professor) => (
             <li key={professor.id}>{professor?.nome}</li>
           ))}
+
+
         </section>
       </div>
     </>
   );
 }
+

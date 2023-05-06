@@ -26,13 +26,13 @@ export default function ConsultaProfessor() {
   }
 
   async function addProf(prof: any) {
-    await apiPost("/professor", prof);
+    await apiPost("/professor/add", prof);
     mostraCadastroProfessor();
     listarProfessores();
   }
 
   async function updateProf(prof: any) {
-    await apiPatch("/professor", prof);
+    await apiPatch("/professor/patch", prof);
     mostraCadastroProfessor();
     listarProfessores();
   }
