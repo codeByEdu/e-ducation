@@ -73,8 +73,6 @@ export default function CadastroTurma({ data }: dataCadastroTurma) {
           <input
             type="text"
             id="nome-turma"
-
-
             onChange={(event) => setAno(event.target.value)}
             name="nome-turma"
           />
