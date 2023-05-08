@@ -15,6 +15,11 @@ export const useApi = () => {
     return response;
   };
 
+  const apiPut = async (path: string, data: any) => {
+    const response = await api.put(path, data);
+    return response;
+  };
+
   const apiGet = async (path: string, config?: any) => {
     const response = await api.get(path, config ? config : {});
     return response;
@@ -25,5 +30,5 @@ export const useApi = () => {
     return response;
   };
 
-  return { apiDelete, apiGet, apiPost, apiPatch };
+  return { apiDelete, apiGet, apiPost, apiPatch, apiPut };
 };
