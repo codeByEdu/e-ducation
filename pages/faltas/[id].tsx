@@ -58,7 +58,7 @@ function Falta() {
         listarAlunos();
         var diaSemana = getDiaSemana();
         var ordem = getOrdem();
-        retornaHorario(1, ordem);
+        retornaHorario(diaSemana, ordem);
     }, []);
 
     async function listarAlunos() {
@@ -71,20 +71,28 @@ function Falta() {
         //   console.log(data);
     }
     async function enviarFalta() {
-        const { data } = await apiPost("/escola/falta", falta);
-        // console.log(data);
+        try {
+            const response = await apiPost("/escola/falta", falta);
+        } catch (error: any) {
+            if (error.response) {
+                const { status, data } = error.response;
+                if (status == 403) {
+                    alert(data);
+                }
+            }
+        }
     }
 
     function getDiaSemana() {
         var data = new Date();
         var diaSemana = data.getDay();
-        return diaSemana;
+        return diaSemana + 3;
     }
     function getOrdem() {
         var dataAtual = new Date();
         var primeiraAula = new Date();
         var ordem = 0;
-        primeiraAula.setHours(21, 0);
+        primeiraAula.setHours(19, 0);
         if (dataAtual < primeiraAula) {
             ordem = 1
         }
