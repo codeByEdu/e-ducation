@@ -86,13 +86,13 @@ function Falta() {
     function getDiaSemana() {
         var data = new Date();
         var diaSemana = data.getDay();
-        return diaSemana + 3;
+        return diaSemana;
     }
     function getOrdem() {
         var dataAtual = new Date();
         var primeiraAula = new Date();
         var ordem = 0;
-        primeiraAula.setHours(19, 0);
+        primeiraAula.setHours(21, 0);
         if (dataAtual < primeiraAula) {
             ordem = 1
         }
