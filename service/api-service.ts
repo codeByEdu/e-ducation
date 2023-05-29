@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const useApi = () => {
   const api = axios.create({
-    baseURL: "https://api-rest-escola.azurewebsites.net",
+    baseURL: "http://localhost:8080",
   });
 
   const apiPost = async (path: string, data: any, config?: any) => {

@@ -28,17 +28,14 @@ export default function CadastroProfessor({ data }: CadastroProfessorProps) {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(tipos);
-  }, [tipos]);
 
   useEffect(() => {
     setFormData({
-      id: data?.professor && data.professor.id,
-      nome: nome ? nome : data.professor.nome,
-      email: email ? email : data.professor.email,
+      id: data?.professor && data.professor?.id,
+      nome: nome ? nome : data.professor?.nome,
+      email: email ? email : data.professor?.email,
       tipoProfessor: {
-        id: tipo ? tipo : data.professor.tipo,
+        id: tipo ? tipo : data.professor?.tipo,
         descricao: "null",
       },
     });
@@ -115,6 +112,7 @@ export default function CadastroProfessor({ data }: CadastroProfessorProps) {
             </div>
 
             <select
+              required
               className="form-control"
               style={{ width: "30%" }}
               onChange={(event) => setTipo(parseInt(event.target.value))}
