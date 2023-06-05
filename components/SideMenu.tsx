@@ -54,9 +54,9 @@ export default function SideMenu() {
             </li></Link>
         </ul>
         <ul>
-          <Link href={"/cadastro-aluno"}>
+          <Link href={"/relatorio"}>
             <li>
-              <span><Person size={32} /></span> <p>Aluno</p>
+              <span><Person size={32} /></span> <p>Relatórios</p>
             </li></Link>
         </ul>
         <ul>

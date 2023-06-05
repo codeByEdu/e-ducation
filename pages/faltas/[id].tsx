@@ -41,7 +41,7 @@ function Falta() {
 
     async function getHorario(form: any) {
         var dia = new Date(form.dia).getDay();
-        retornaHorario(dia, parseInt(form.ordem));
+        await retornaHorario(dia, parseInt(form.ordem));
         console.log(form);
         console.log(horario);
         salvarFaltas(form);
@@ -52,7 +52,7 @@ function Falta() {
         const falta: Falta = {
             alunos: selectedStudents,
             codHorario: horario?.idHorario || 0,
-            dataFalta: dia
+            dataFalta: new Date(dia + "T03:00:00Z")
         }
         setFalta(falta);
         console.log(falta);
@@ -104,25 +104,7 @@ function Falta() {
         }
     }
 
-    function getDiaSemana(dia: any) {
-        var data = new Date(dia);
-        var diaSemana = data.getDay();
-        return diaSemana;
-    }
-    function getOrdem(hora: any) {
-        var dataAtual = new Date();
-        dataAtual.setHours(hora.split(":")[0], hora.split(":")[1]);
-        var primeiraAula = new Date();
-        var ordem = 0;
-        primeiraAula.setHours(21, 0);
-        if (dataAtual < primeiraAula) {
-            ordem = 1
-        }
-        else {
-            ordem = 2
-        }
-        return ordem;
-    }
+
     return (
         <div className="container">
             {activeModal && <SelectHorario data={data} />}

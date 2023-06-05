@@ -3,7 +3,7 @@ import { useModalContext } from "@/contexts/ModalContext";
 import { useApi } from "@/service/api-service";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
+import Link from "next/link";
 function Turma() {
   const router = useRouter();
   const { id } = router.query;
@@ -84,6 +84,9 @@ function Turma() {
                 >
                   Deletar
                 </button>
+                <Link href={"/dashboard/" + aluno.id}>
+                  <button className="btn btn-warning">Acessar faltas</button>
+                </Link>
               </td>
             </tr>
           ))}
