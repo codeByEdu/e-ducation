@@ -56,7 +56,7 @@ function Falta() {
         }
         setFalta(falta);
         console.log(falta);
-        // alert("Deseja enviar " + selectedStudents.length + " faltas" + " para a aula de " + horario?.nomeDisciplina + " do dia " + form?.dia + " na " + form?.ordem + "ª aula?");
+        alert("Deseja enviar " + selectedStudents.length + " faltas" + " para a aula de " + horario?.nomeDisciplina + " do dia " + form?.dia + " na " + form?.ordem + "ª aula?");
         enviarFalta();
     }
 

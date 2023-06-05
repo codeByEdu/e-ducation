@@ -17,25 +17,24 @@ const DashboardScreen: React.FC = () => {
 
 
     useEffect(() => {
-        fetchData();
+        geraTotalFaltas();
+        // geraPorcentagemFaltas();
     }, []);
 
-    async function fetchData() {
+    async function geraTotalFaltas() {
         try {
             const response = await apiGet('/escola/falta/' + id);
 
             const data = await response.data;
             console.log(data);
-            const labels = data['disciplina'];
-            const values = data['totalFaltas'];
+            const labels = data.map((turma: any) => turma.disciplina);
+            const values = data.map((turma: any) => turma.totalFaltas);
 
-            console.log({ labels });
-            console.log({ values });
             const chartData: ChartData = {
                 labels: labels,
                 datasets: [
                     {
-                        label: 'Faltas do aluno por materia',
+                        label: 'Total de faltas',
                         data: values,
                         backgroundColor: 'rgba(75, 192, 192, 0.6)',
                     },
@@ -63,14 +62,24 @@ const DashboardScreen: React.FC = () => {
                 });
             }
         } catch (error) {
-            console.error('Erro ao buscar os dados do Grafana:', error);
+            console.error('Erro ao buscar os dados da API:', error);
         }
     }
+    const getRandomColor = () => {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
+
 
     return (
         <div>
             <h1>Faltas do aluno</h1>
             <canvas id="chart" width="400" height="200"></canvas>
+            {/* <canvas id="chartP" width="400" height="200"></canvas> */}
         </div>
     );
 };
