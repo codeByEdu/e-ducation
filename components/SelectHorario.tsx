@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 
 type dataSelectHorario = {
     data: {
-        salvarFaltas: (horario: any) => Promise<void>;
+        getHorario: (horario: any) => Promise<void>;
     };
 };
 
 export default function SelectHorario({ data }: dataSelectHorario) {
     const { mostraSelectHorario } = useModalContext();
 
-    const [dia, setDia] = useState<any>();
+    const [dia, setDia] = useState<any>("");
     const [formData, setFormData] = useState<any>();
-    const [ordem, setOrdem] = useState<any>();
+    const [ordem, setOrdem] = useState<any>("");
 
 
     useEffect(() => {
@@ -102,7 +102,7 @@ export default function SelectHorario({ data }: dataSelectHorario) {
                             </button>
                             <button
                                 onClick={() => {
-                                    data.salvarFaltas(formData);
+                                    data.getHorario(formData);
                                 }}
                                 type="button"
                                 className="btn btn-success">

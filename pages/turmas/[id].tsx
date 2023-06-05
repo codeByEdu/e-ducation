@@ -8,7 +8,7 @@ function Turma() {
   const router = useRouter();
   const { id } = router.query;
   const [alunos, setAlunos] = useState<any[]>([]);
-  const { apiGet } = useApi();
+  const { apiGet, apiDelete } = useApi();
   const { mostraCadastroAluno, activeModal } = useModalContext();
   const [modalEditaAlunoAberto, setModalEditaAlunoAberto] =
     useState<boolean>(false);
@@ -23,6 +23,10 @@ function Turma() {
   async function listarAlunos() {
     const { data } = await apiGet("/aluno/class/all?=" + "&idTurma=" + id);
     setAlunos(data);
+  }
+
+  const deleteAluno = (aluno: any) => {
+    apiDelete("/aluno/" + aluno.id).then(() => { listarAlunos(); });
   }
 
   function mostraEdicaoAlunoModal(aluno: any) {
@@ -75,7 +79,9 @@ function Turma() {
                 >
                   Editar
                 </button>
-                <button type="button" className="btn btn-danger btn-sm">
+                <button type="button" className="btn btn-danger btn-sm"
+                  onClick={() => deleteAluno(aluno)}
+                >
                   Deletar
                 </button>
               </td>

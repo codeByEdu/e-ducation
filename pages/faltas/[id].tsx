@@ -13,8 +13,8 @@ function Falta() {
     const [falta, setFalta] = useState<Falta>();
     const { apiGet, apiDelete, apiPost, apiPatch } = useApi();
     const { mostraSelectHorario, activeModal } = useModalContext();
-    const [diaSemana, setDiaSemana] = useState<number>(0);
-    const [ordem, setOrdem] = useState<number>(0);
+    const [dia, setDia] = useState<any>();
+
 
     interface Horario {
         idHorario: number,
@@ -25,7 +25,7 @@ function Falta() {
         nomeDisciplina: string
     }
     const data = {
-        salvarFaltas
+        getHorario
     }
 
     interface Student {
@@ -38,19 +38,25 @@ function Falta() {
         codHorario: number;
         dataFalta?: Date;
     }
-    async function salvarFaltas(form: any) {
-        setDiaSemana(getDiaSemana(form?.dia));
+
+    async function getHorario(form: any) {
         var dia = new Date(form.dia).getDay();
         retornaHorario(dia, parseInt(form.ordem));
+        console.log(form);
+        console.log(horario);
+        salvarFaltas(form);
+    }
+
+    function salvarFaltas(form: any) {
+        setDia(form.dia);
         const falta: Falta = {
             alunos: selectedStudents,
-            codHorario: horario?.idHorario || 0
+            codHorario: horario?.idHorario || 0,
+            dataFalta: dia
         }
         setFalta(falta);
         console.log(falta);
-
         // alert("Deseja enviar " + selectedStudents.length + " faltas" + " para a aula de " + horario?.nomeDisciplina + " do dia " + form?.dia + " na " + form?.ordem + "ª aula?");
-
         enviarFalta();
     }
 
@@ -87,7 +93,7 @@ function Falta() {
             const response = await apiPost("/escola/falta", falta);
 
             alert("Faltas enviadas com sucesso!");
-            router.push("/turmas/" + id);
+            router.push("/faltas/" + id);
         } catch (error: any) {
             if (error.response) {
                 const { status, data } = error.response;
